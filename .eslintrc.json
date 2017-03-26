@@ -14,6 +14,8 @@
         "mocha": true
     },
     "rules": {
+        "indent": ["error", 4],
+        "max-len": ["error", 120],
         "object-curly-spacing": ["error", "never"],
         "import/no-extraneous-dependencies": ["error", {
             "devDependencies": ["src/test.js"]
