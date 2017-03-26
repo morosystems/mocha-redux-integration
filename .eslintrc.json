@@ -1,0 +1,22 @@
+{
+    "extends": "airbnb-base",
+    "parser": "babel-eslint",
+    "parserOptions": {
+        "ecmaVersion": 6,
+        "ecmaFeatures": {
+            "impliedStrict": true
+        }
+    },
+    "env": {
+        "es6": true,
+        "browser": true,
+        "node": true,
+        "mocha": true
+    },
+    "rules": {
+        "object-curly-spacing": ["error", "never"],
+        "import/no-extraneous-dependencies": ["error", {
+            "devDependencies": ["src/test.js"]
+        }]
+    }
+}
