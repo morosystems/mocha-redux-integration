@@ -25,5 +25,9 @@
         "import/prefer-default-export": "off",
         "no-else-return": "off",
         "arrow-parens": ["error", "always"]
+    },
+    "globals": {
+        "feature": false,
+        "scenario": false
     }
 }
