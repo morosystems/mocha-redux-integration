@@ -28,6 +28,8 @@
     },
     "globals": {
         "feature": false,
-        "scenario": false
+        "scenario": false,
+        "when": false,
+        "then": false
     }
 }
