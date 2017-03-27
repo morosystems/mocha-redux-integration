@@ -14,11 +14,16 @@
         "mocha": true
     },
     "rules": {
-        "indent": ["error", 4],
+        "indent": ["error", 4, {
+            "SwitchCase": 1
+        }],
         "max-len": ["error", 120],
         "object-curly-spacing": ["error", "never"],
         "import/no-extraneous-dependencies": ["error", {
             "devDependencies": ["src/test.js"]
-        }]
+        }],
+        "import/prefer-default-export": "off",
+        "no-else-return": "off",
+        "arrow-parens": ["error", "always"]
     }
 }
