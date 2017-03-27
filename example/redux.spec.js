@@ -4,9 +4,9 @@ import reducer from './reducer';
 import {setQuery} from './actions';
 import {getCharacterIds, isLoading, canLoadMore} from './selectors';
 
-describe('Character Search Module', () => {
+feature('Character Search Module', () => {
     const initial = new MockStore(reducer, NAME);
-    context('intial state', () => {
+    scenario('intial state', () => {
         it('given initial state', () => {});
         it('then there are no characters', () => {
             initial.select(getCharacterIds).should.be.empty();
@@ -18,7 +18,7 @@ describe('Character Search Module', () => {
             initial.select(canLoadMore).should.be.false();
         });
     });
-    context('first query', () => {
+    scenario('first query', () => {
         let store = initial;
         it('given initial state', () => {});
         it('when search is initialized', () => {

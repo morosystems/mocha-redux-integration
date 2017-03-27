@@ -7,7 +7,7 @@
     "test": "npm run test:base -- --reporter spec",
     "test:watch": "npm run test:base -- --reporter min --watch",
     "lint": "eslint src",
-    "example:base": "mocha --compilers js:babel-register src/test.js example/redux.spec.js",
+    "example:base": "mocha --compilers js:babel-register --require src --ui redux-integration src/test.js example/redux.spec.js",
     "example": "npm run example:base -- --reporter spec",
     "example:watch": "npm run example:base -- --reporter min --watch"
   },
@@ -45,5 +45,8 @@
     "immutable": "3.8.1",
     "invariant": "2.2.2",
     "redux-immutable": "4.0.0"
+  },
+  "peerDependencies": {
+    "mocha": "^3.2.0"
   }
 }
