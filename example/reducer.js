@@ -41,7 +41,11 @@ const limitReducer = (state = LIMIT, action) => {
 const totalReducer = (state = 0, action) => {
     switch (action.type) {
         case SET_QUERY:
-            return Number.POSITIVE_INFINITY;
+            if (action.query) {
+                return Number.POSITIVE_INFINITY;
+            } else {
+                return 0;
+            }
         case ADD_CHARACTERS:
             return action.total;
         default:
