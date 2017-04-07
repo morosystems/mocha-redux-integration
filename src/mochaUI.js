@@ -3,7 +3,9 @@ import Mocha from 'mocha';
 import Suite from 'mocha/lib/suite';
 import Test from 'mocha/lib/test';
 import createCommonSuite from 'mocha/lib/interfaces/common';
+
 import MockStore from './MockStore';
+import ResultStore from './ResultStore';
 
 const mochaUI = (suite) => {
     const suites = [suite];
@@ -20,6 +22,7 @@ const mochaUI = (suite) => {
             const feature = Suite.create(suites[0], title);
             feature.file = file;
             feature.initial = new MockStore(reducer, pathDefined ? path : undefined);
+            feature.results = new ResultStore();
 
             suites.unshift(feature);
             (pathDefined ? fn : path).call(feature);
@@ -35,6 +38,7 @@ const mochaUI = (suite) => {
             const scenario = Suite.create(suites[0], title);
             scenario.file = file;
             scenario.initial = suites[0].initial;
+            scenario.results = suites[0].results;
 
             suites.unshift(scenario);
             fn.call(scenario);
@@ -48,13 +52,13 @@ const mochaUI = (suite) => {
             invariant(suites[0].initial, 'Given must be inside scenario');
 
             let test;
-            if (title) {
+            if (!title) {
                 test = new Test('given initial state', function given() {
                     this.store = this.test.parent.initial;
                 });
             } else {
                 test = new Test(`given ${title}`, function given() {
-                    this.store = this.test.parent.initial;
+                    this.store = this.test.parent.results.get(title);
                 });
             }
 
@@ -87,6 +91,13 @@ const mochaUI = (suite) => {
             test.file = file;
             suites[0].addTest(test);
             return test;
+        };
+
+        // eslint-disable-next-line no-param-reassign
+        context.result = (title) => {
+            suites[0].afterAll(function storeResult() {
+                this.test.parent.results.set(title, this.store);
+            });
         };
     });
 };

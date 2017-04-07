@@ -58,12 +58,14 @@ feature('Character Search Module', reducer, NAME, () => {
         then('it is not loading', isLoading, (result) => result.should.be.false());
         then('it cannot load more', canLoadMore, (result) => result.should.be.false());
     });
+    const INITIALIZED_SEARCH = 'initialized search';
     scenario('first query', () => {
         given();
         when('search is initialized', setQuery('Bonehunters'));
         then('there are no characters', getCharacterIds, (result) => result.should.be.empty());
         then('it is loading', isLoading, (result) => result.should.be.true());
         then('it can load more', isLoading, (result) => result.should.be.true());
+        result(INITIALIZED_SEARCH);
     });
     scenario('first empty query', () => {
         given();
@@ -71,5 +73,9 @@ feature('Character Search Module', reducer, NAME, () => {
         then('there are no characters', getCharacterIds, (result) => result.should.be.empty());
         then('it is not loading', isLoading, (result) => result.should.be.false());
         then('it cannot load more', canLoadMore, (result) => result.should.be.false());
+    });
+    scenario('adding characters before limit', () => {
+        given(INITIALIZED_SEARCH);
+        then('it is loading', isLoading, (result) => result.should.be.true());
     });
 });
