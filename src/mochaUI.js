@@ -84,7 +84,7 @@ const mochaUI = (suite) => {
             const test = new Test(`then ${title}`, function then() {
                 invariant(this.store, 'Given must be specified for then.');
                 const result = paramsDefined
-                    ? this.store.select(selector, parameters)
+                    ? this.store.select(selector, ...parameters)
                     : this.store.select(selector);
                 (paramsDefined ? fn : parameters)(result);
             });

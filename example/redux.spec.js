@@ -1,7 +1,8 @@
+import {fromJS} from 'immutable';
 import {NAME} from './constants';
 import reducer from './reducer';
-import {setQuery} from './actions';
-import {getCharacterIds, isLoading, canLoadMore} from './selectors';
+import {setQuery, addCharacters} from './actions';
+import {getCharacterIds, isLoading, canLoadMore, getCharacter} from './selectors';
 
 feature('Character Search Module', reducer, NAME, () => {
     const bonehunters = [
@@ -74,8 +75,14 @@ feature('Character Search Module', reducer, NAME, () => {
         then('it is not loading', isLoading, (result) => result.should.be.false());
         then('it cannot load more', canLoadMore, (result) => result.should.be.false());
     });
-    scenario('adding characters before limit', () => {
+    scenario('adding less than total characters before limit', () => {
         given(INITIALIZED_SEARCH);
+        const characters = bonehunters.slice(0, 10);
+        when('characters are added', addCharacters(characters, bonehunters.length));
+        then('then their ids are in the list', getCharacterIds,
+            (result) => characters.forEach(({id}) => result.should.include(id)));
+        then('they can be displayed', getCharacter, [0], (result) => result.should.equal(fromJS(characters[0])));
         then('it is loading', isLoading, (result) => result.should.be.true());
+        then('it can load more', isLoading, (result) => result.should.be.true());
     });
 });
