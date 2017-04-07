@@ -29,6 +29,7 @@
     "globals": {
         "feature": false,
         "scenario": false,
+        "given": false,
         "when": false,
         "then": false
     }

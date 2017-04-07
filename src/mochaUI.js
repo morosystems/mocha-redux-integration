@@ -34,7 +34,7 @@ const mochaUI = (suite) => {
 
             const scenario = Suite.create(suites[0], title);
             scenario.file = file;
-            scenario.store = suites[0].initial;
+            scenario.initial = suites[0].initial;
 
             suites.unshift(scenario);
             fn.call(scenario);
@@ -44,11 +44,30 @@ const mochaUI = (suite) => {
         };
 
         // eslint-disable-next-line no-param-reassign
-        context.when = (title, ...actions) => {
-            invariant(suites[0].store, 'When must be inside scenario.');
+        context.given = (title) => {
+            invariant(suites[0].initial, 'Given must be inside scenario');
 
+            let test;
+            if (title) {
+                test = new Test('given initial state', function given() {
+                    this.store = this.test.parent.initial;
+                });
+            } else {
+                test = new Test(`given ${title}`, function given() {
+                    this.store = this.test.parent.initial;
+                });
+            }
+
+            test.file = file;
+            suites[0].addTest(test);
+            return test;
+        };
+
+        // eslint-disable-next-line no-param-reassign
+        context.when = (title, ...actions) => {
             const test = new Test(`when ${title}`, function when() {
-                this.test.parent.store = this.test.parent.store.apply(...actions);
+                invariant(this.store, 'Given must be specified for when.');
+                this.store = this.store.apply(...actions);
             });
             test.file = file;
             suites[0].addTest(test);
@@ -57,13 +76,12 @@ const mochaUI = (suite) => {
 
         // eslint-disable-next-line no-param-reassign
         context.then = (title, selector, parameters, fn) => {
-            invariant(suites[0].store, 'Then must be inside scenario.');
             const paramsDefined = !!fn;
-
             const test = new Test(`then ${title}`, function then() {
+                invariant(this.store, 'Given must be specified for then.');
                 const result = paramsDefined
-                    ? this.test.parent.store.select(selector, parameters)
-                    : this.test.parent.store.select(selector);
+                    ? this.store.select(selector, parameters)
+                    : this.store.select(selector);
                 (paramsDefined ? fn : parameters)(result);
             });
             test.file = file;

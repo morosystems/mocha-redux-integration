@@ -53,17 +53,20 @@ feature('Character Search Module', reducer, NAME, () => {
         {id: 46, name: 'Scant', squad: 13},
     ];
     scenario('intial state', () => {
+        given();
         then('there are no characters', getCharacterIds, (result) => result.should.be.empty());
         then('it is not loading', isLoading, (result) => result.should.be.false());
         then('it cannot load more', canLoadMore, (result) => result.should.be.false());
     });
     scenario('first query', () => {
-        when('search is initialized', setQuery('Bridgeburners'));
+        given();
+        when('search is initialized', setQuery('Bonehunters'));
         then('there are no characters', getCharacterIds, (result) => result.should.be.empty());
         then('it is loading', isLoading, (result) => result.should.be.true());
         then('it can load more', isLoading, (result) => result.should.be.true());
     });
     scenario('first empty query', () => {
+        given();
         when('search is initialized with empty query', setQuery(''));
         then('there are no characters', getCharacterIds, (result) => result.should.be.empty());
         then('it is not loading', isLoading, (result) => result.should.be.false());
