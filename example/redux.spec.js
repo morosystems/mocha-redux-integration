@@ -1,7 +1,7 @@
 import {fromJS} from 'immutable';
 import {NAME} from './constants';
 import reducer from './reducer';
-import {setQuery, addCharacters} from './actions';
+import {setQuery, addCharacters, loadMore} from './actions';
 import {getCharacterIds, isLoading, canLoadMore, getCharacter} from './selectors';
 
 feature('Character Search Module', reducer, NAME, () => {
@@ -75,14 +75,63 @@ feature('Character Search Module', reducer, NAME, () => {
         then('it is not loading', isLoading, (result) => result.should.be.false());
         then('it cannot load more', canLoadMore, (result) => result.should.be.false());
     });
+    const firstBatch = bonehunters.slice(0, 10);
+    const LOADED_FIRST_CHARACTERS = 'store with first batch of characters';
     scenario('adding less than total characters before limit', () => {
         given(INITIALIZED_SEARCH);
-        const characters = bonehunters.slice(0, 10);
-        when('characters are added', addCharacters(characters, bonehunters.length));
-        then('then their ids are in the list', getCharacterIds,
-            (result) => characters.forEach(({id}) => result.should.include(id)));
-        then('they can be displayed', getCharacter, [0], (result) => result.should.equal(fromJS(characters[0])));
+        when('characters are added', addCharacters(firstBatch, bonehunters.length));
+        then('their ids are in the list', getCharacterIds,
+            (result) => firstBatch.forEach(({id}) => result.should.include(id)));
+        then('they can be displayed', getCharacter, [0], (result) => result.should.equal(fromJS(bonehunters[0])));
+        then('it is loading', isLoading, (result) => result.should.be.true());
+        then('it can load more', canLoadMore, (result) => result.should.be.true());
+        result(LOADED_FIRST_CHARACTERS);
+    });
+    const secondBatch = bonehunters.slice(10, 20);
+    const LOADED_SECOND_CHARACTERS = 'store with second batch of characters';
+    scenario('adding another characters before limit', () => {
+        given(LOADED_FIRST_CHARACTERS);
+        when('another characters are added', addCharacters(secondBatch, bonehunters.length));
+        then('their ids are in the list', getCharacterIds,
+            (result) => secondBatch.forEach(({id}) => result.should.include(id)));
+        then('original ids are in the list', getCharacterIds,
+            (result) => firstBatch.forEach(({id}) => result.should.include(id)));
+        then('they can be displayed', getCharacter, [12], (result) => result.should.equal(fromJS(bonehunters[12])));
+        then('original characters can be displayed', getCharacter, [2],
+            (result) => result.should.equal(fromJS(bonehunters[2])));
+        then('it is loading', isLoading, (result) => result.should.be.true());
+        then('it can load more', canLoadMore, (result) => result.should.be.true());
+        result(LOADED_SECOND_CHARACTERS);
+    });
+    const thirdBatch = bonehunters.slice(20, 30);
+    const OVER_LIMIT = 'store with characters over limit';
+    scenario('adding characters over limit', () => {
+        given(LOADED_SECOND_CHARACTERS);
+        when('another characters are added', addCharacters(thirdBatch, bonehunters.length));
+        then('their ids are on the list', getCharacterIds,
+            (result) => thirdBatch.forEach(({id}) => result.should.include(id)));
+        then('it is not loading', isLoading, (result) => result.should.be.false());
+        then('it can load more', canLoadMore, (result) => result.should.be.true());
+        result(OVER_LIMIT);
+    });
+    scenario('extending limit', () => {
+        given(OVER_LIMIT);
+        when('limit is extended', loadMore());
         then('it is loading', isLoading, (result) => result.should.be.true());
         then('it can load more', isLoading, (result) => result.should.be.true());
+    });
+    const ALL_LOADED = 'all characters are loaded';
+    scenario('getting all characters before limit', () => {
+        given();
+        when('all characters are loaded', addCharacters(bonehunters.slice(0, 10), 10));
+        then('it is not loading', isLoading, (result) => result.should.be.false());
+        then('it cannot load more', isLoading, (result) => result.should.be.false());
+        result(ALL_LOADED);
+    });
+    scenario('extending limit on full store', () => {
+        given(ALL_LOADED);
+        when('limit is extended', loadMore());
+        then('it is not loading', isLoading, (result) => result.should.be.false());
+        then('it cannot load more', isLoading, (result) => result.should.be.false());
     });
 });
