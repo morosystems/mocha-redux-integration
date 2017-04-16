@@ -108,7 +108,7 @@ feature('Character Search Module', reducer, NAME, () => {
     scenario('adding characters over limit', () => {
         given(LOADED_SECOND_CHARACTERS);
         when('another characters are added', addCharacters(thirdBatch, bonehunters.length));
-        then('their ids are on the list', getCharacterIds,
+        then('their ids are in the list', getCharacterIds,
             (result) => thirdBatch.forEach(({id}) => result.should.include(id)));
         then('it is not loading', isLoading, (result) => result.should.be.false());
         then('it can load more', canLoadMore, (result) => result.should.be.true());
@@ -121,9 +121,12 @@ feature('Character Search Module', reducer, NAME, () => {
         then('it can load more', isLoading, (result) => result.should.be.true());
     });
     const ALL_LOADED = 'all characters are loaded';
+    const fourthSquad = bonehunters.filter(({squad}) => squad === 4);
     scenario('getting all characters before limit', () => {
-        given();
-        when('all characters are loaded', addCharacters(bonehunters.slice(0, 10), 10));
+        given(INITIALIZED_SEARCH);
+        when('all characters are loaded', addCharacters(fourthSquad, fourthSquad.length));
+        then('all characters are in the list', getCharacterIds,
+            (result) => fourthSquad.forEach(({id}) => result.should.include(id)));
         then('it is not loading', isLoading, (result) => result.should.be.false());
         then('it cannot load more', isLoading, (result) => result.should.be.false());
         result(ALL_LOADED);
@@ -134,4 +137,56 @@ feature('Character Search Module', reducer, NAME, () => {
         then('it is not loading', isLoading, (result) => result.should.be.false());
         then('it cannot load more', isLoading, (result) => result.should.be.false());
     });
+    scenario('changing query while loading', () => {
+        given(LOADED_FIRST_CHARACTERS);
+        when('query is changed', setQuery('Bridgeburners'));
+        then('character id list is empty', getCharacterIds, (result) => result.should.be.empty());
+        then('it is loading', isLoading, (result) => result.should.be.true());
+        then('it can load more', canLoadMore, (result) => result.should.be.true());
+    });
+    scenario('changing query when over limit', () => {
+        given(OVER_LIMIT);
+        when('query is changed', setQuery('Bridgeburners'));
+        then('characer id list is empty', getCharacterIds, (result) => result.should.be.empty());
+        then('it is loading', isLoading, (result) => result.should.be.true());
+        then('it can load more', canLoadMore, (result) => result.should.be.true());
+    });
+    scenario('changing query when finished', () => {
+        given(ALL_LOADED);
+        when('query is changed', setQuery('Bridgeburners'));
+        then('characer id list is empty', getCharacterIds, (result) => result.should.be.empty());
+        then('it is loading', isLoading, (result) => result.should.be.true());
+        then('it can load more', canLoadMore, (result) => result.should.be.true());
+    });
+    scenario('resetting query while loading', () => {
+        given(LOADED_FIRST_CHARACTERS);
+        when('query is reset', setQuery('Bonehunters'));
+        then('characters ids are in the list', getCharacterIds,
+            (result) => firstBatch.forEach(({id}) => result.should.include(id)));
+        then('characters can be displayed', getCharacter, [1],
+            (result) => result.should.deep.equal(fromJS(bonehunters[1])));
+        then('it is loading', isLoading, (result) => result.should.be.true());
+        then('it can load more', canLoadMore, (result) => result.should.be.true());
+    });
+    scenario('resetting query when over limit', () => {
+        given(OVER_LIMIT);
+        when('query is reset', setQuery('Bonehunters'));
+        then('character ids are in the list', getCharacterIds,
+            (result) => [].concat(firstBatch, secondBatch, thirdBatch).forEach(({id}) => result.contains(id)));
+        then('characters can be displayed', getCharacter, [20],
+            (result) => result.should.deep.equal(fromJS(bonehunters[20])));
+        then('it is not loading', isLoading, (result) => result.should.be.false());
+        then('it can load more', canLoadMore, (result) => result.should.be.true());
+    });
+    scenario('resetting query when all loaded', () => {
+        given(ALL_LOADED);
+        when('query is reset', setQuery('Bonehunters'));
+        then('character ids are in the list', getCharacterIds,
+            (result) => fourthSquad.forEach(({id}) => result.should.include(id)));
+        then('characters can be displayed', getCharacter, [fourthSquad[4].id],
+            (result) => result.should.deep.equal(fromJS(fourthSquad[4])));
+        then('it is not loading', isLoading, (result) => result.should.be.false());
+        then('it cannot load more', canLoadMore, (result) => result.should.be.false());
+    });
+    // TODO predefined clauses ('query is changed') or lists of them (is in initial state).
 });
