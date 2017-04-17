@@ -188,5 +188,4 @@ feature('Character Search Module', reducer, NAME, () => {
         then('it is not loading', isLoading, (result) => result.should.be.false());
         then('it cannot load more', canLoadMore, (result) => result.should.be.false());
     });
-    // TODO predefined clauses ('query is changed') or lists of them (is in initial state).
 });
