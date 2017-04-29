@@ -71,7 +71,16 @@ const mochaUI = (suite) => {
         context.when = (title, ...actions) => {
             const test = new Test(`when ${title}`, function when() {
                 invariant(this.store, 'Given must be specified for when.');
-                this.store = this.store.apply(...actions);
+                try {
+                    this.store = this.store.apply(...actions);
+                } catch (ex) {
+                    const siblings = this.test.parent.tests;
+                    const index = siblings.indexOf(this.test);
+                    siblings.slice(index + 1).forEach((dependant) => {
+                        dependant.pending = true; // eslint-disable-line no-param-reassign
+                    });
+                    throw ex;
+                }
             });
             test.file = file;
             suites[0].addTest(test);
