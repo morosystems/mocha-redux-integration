@@ -7,6 +7,19 @@ import createCommonSuite from 'mocha/lib/interfaces/common';
 import MockStore from './MockStore';
 import ResultStore from './ResultStore';
 
+const execudeAndSkipDependentsOnError = (test, command) => {
+    try {
+        command();
+    } catch (ex) {
+        const siblings = test.parent.tests;
+        const index = siblings.indexOf(test);
+        siblings.slice(index + 1).forEach((dependant) => {
+            dependant.pending = true; // eslint-disable-line no-param-reassign
+        });
+        throw ex;
+    }
+};
+
 const mochaUI = (suite) => {
     const suites = [suite];
     suite.on('pre-require', (context, file, mocha) => {
@@ -58,7 +71,9 @@ const mochaUI = (suite) => {
                 });
             } else {
                 test = new Test(`given ${title}`, function given() {
-                    this.store = this.test.parent.results.get(title);
+                    execudeAndSkipDependentsOnError(this.test, () => {
+                        this.store = this.test.parent.results.get(title);
+                    });
                 });
             }
 
@@ -71,16 +86,9 @@ const mochaUI = (suite) => {
         context.when = (title, ...actions) => {
             const test = new Test(`when ${title}`, function when() {
                 invariant(this.store, 'Given must be specified for when.');
-                try {
+                execudeAndSkipDependentsOnError(this.test, () => {
                     this.store = this.store.apply(...actions);
-                } catch (ex) {
-                    const siblings = this.test.parent.tests;
-                    const index = siblings.indexOf(this.test);
-                    siblings.slice(index + 1).forEach((dependant) => {
-                        dependant.pending = true; // eslint-disable-line no-param-reassign
-                    });
-                    throw ex;
-                }
+                });
             });
             test.file = file;
             suites[0].addTest(test);
