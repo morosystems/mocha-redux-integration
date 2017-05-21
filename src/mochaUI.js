@@ -8,7 +8,7 @@ import MockStore from './MockStore';
 import ResultStore from './ResultStore';
 import {executeCommandWithDependentTests} from './mochaHelpers';
 import when from './when';
-
+import then from './then';
 
 const mochaUI = (suite) => {
     const suites = [suite];
@@ -81,15 +81,8 @@ const mochaUI = (suite) => {
         };
 
         // eslint-disable-next-line no-param-reassign
-        context.then = (title, selector, parameters, fn) => {
-            const paramsDefined = !!fn;
-            const test = new Test(`then ${title}`, function then() {
-                invariant(this.store, 'Given must be specified for then.');
-                const result = paramsDefined
-                    ? this.store.select(selector, ...parameters)
-                    : this.store.select(selector);
-                (paramsDefined ? fn : parameters)(result);
-            });
+        context.then = (title, ...params) => {
+            const test = new Test(`then ${title}`, then(params));
             test.file = file;
             suites[0].addTest(test);
             return test;

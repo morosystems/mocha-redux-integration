@@ -82,7 +82,7 @@ feature('Character Search Module', reducer, NAME, () => {
         when('characters are added', addCharacters, firstBatch, bonehunters.length);
         then('their ids are in the list', getCharacterIds,
             (result) => firstBatch.forEach(({id}) => result.should.include(id)));
-        then('they can be displayed', getCharacter, [0], (result) => result.should.equal(fromJS(bonehunters[0])));
+        then('they can be displayed', getCharacter, 0, (result) => result.should.equal(fromJS(bonehunters[0])));
         then('it is loading', isLoading, (result) => result.should.be.true());
         then('it can load more', canLoadMore, (result) => result.should.be.true());
         result(LOADED_FIRST_CHARACTERS);
@@ -96,8 +96,8 @@ feature('Character Search Module', reducer, NAME, () => {
             (result) => secondBatch.forEach(({id}) => result.should.include(id)));
         then('original ids are in the list', getCharacterIds,
             (result) => firstBatch.forEach(({id}) => result.should.include(id)));
-        then('they can be displayed', getCharacter, [12], (result) => result.should.equal(fromJS(bonehunters[12])));
-        then('original characters can be displayed', getCharacter, [2],
+        then('they can be displayed', getCharacter, 12, (result) => result.should.equal(fromJS(bonehunters[12])));
+        then('original characters can be displayed', getCharacter, 2,
             (result) => result.should.equal(fromJS(bonehunters[2])));
         then('it is loading', isLoading, (result) => result.should.be.true());
         then('it can load more', canLoadMore, (result) => result.should.be.true());
@@ -163,7 +163,7 @@ feature('Character Search Module', reducer, NAME, () => {
         when('query is reset', setQuery, 'Bonehunters');
         then('characters ids are in the list', getCharacterIds,
             (result) => firstBatch.forEach(({id}) => result.should.include(id)));
-        then('characters can be displayed', getCharacter, [1],
+        then('characters can be displayed', getCharacter, 1,
             (result) => result.should.deep.equal(fromJS(bonehunters[1])));
         then('it is loading', isLoading, (result) => result.should.be.true());
         then('it can load more', canLoadMore, (result) => result.should.be.true());
@@ -173,7 +173,7 @@ feature('Character Search Module', reducer, NAME, () => {
         when('query is reset', setQuery, 'Bonehunters');
         then('character ids are in the list', getCharacterIds,
             (result) => [].concat(firstBatch, secondBatch, thirdBatch).forEach(({id}) => result.contains(id)));
-        then('characters can be displayed', getCharacter, [20],
+        then('characters can be displayed', getCharacter, 20,
             (result) => result.should.deep.equal(fromJS(bonehunters[20])));
         then('it is not loading', isLoading, (result) => result.should.be.false());
         then('it can load more', canLoadMore, (result) => result.should.be.true());
@@ -183,7 +183,7 @@ feature('Character Search Module', reducer, NAME, () => {
         when('query is reset', setQuery, 'Bonehunters');
         then('character ids are in the list', getCharacterIds,
             (result) => fourthSquad.forEach(({id}) => result.should.include(id)));
-        then('characters can be displayed', getCharacter, [fourthSquad[4].id],
+        then('characters can be displayed', getCharacter, fourthSquad[4].id,
             (result) => result.should.deep.equal(fromJS(fourthSquad[4])));
         then('it is not loading', isLoading, (result) => result.should.be.false());
         then('it cannot load more', canLoadMore, (result) => result.should.be.false());
