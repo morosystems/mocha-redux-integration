@@ -89,6 +89,20 @@ const mochaUI = (suite) => {
         };
 
         // eslint-disable-next-line no-param-reassign
+        context.thenP = (title, selector, ...params) => {
+            const assertion = params[params.length - 1];
+            const paramValueSets = params.slice(0, -1);
+            return paramValueSets
+                .map((paramValues) => then([selector, ...paramValues, (result) => assertion(result, ...paramValues)]))
+                .map((testFn, index) => {
+                    const test = new Test(`then ${title} [${index}]`, testFn);
+                    test.file = file;
+                    suites[0].addTest(test);
+                    return test;
+                });
+        };
+
+        // eslint-disable-next-line no-param-reassign
         context.result = (title) => {
             suites[0].afterAll(function storeResult() {
                 this.test.parent.results.set(title, this.store);
