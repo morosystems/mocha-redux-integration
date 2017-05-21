@@ -20,7 +20,7 @@
         "max-len": ["error", 120],
         "object-curly-spacing": ["error", "never"],
         "import/no-extraneous-dependencies": ["error", {
-            "devDependencies": ["src/test.js"]
+            "devDependencies": ["src/test.js", "**/*.spec.js"]
         }],
         "import/prefer-default-export": "off",
         "no-else-return": "off",
