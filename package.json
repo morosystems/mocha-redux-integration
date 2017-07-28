@@ -9,7 +9,9 @@
     "lint": "eslint src test",
     "example:base": "mocha --compilers js:babel-register --require src --ui redux-integration src/test.js example/redux.spec.js",
     "example": "npm run example:base -- --reporter spec",
-    "example:watch": "npm run example:base -- --reporter min --watch"
+    "example:watch": "npm run example:base -- --reporter min --watch",
+    "build": "babel src --out-dir lib --ignore \"**/*.spec.js\",test.js",
+    "clean": "rimraf lib"
   },
   "repository": {
     "type": "git",
@@ -41,6 +43,7 @@
     "eslint-config-airbnb-base": "11.3.1",
     "eslint-plugin-import": "2.7.0",
     "mocha": "3.4.2",
+    "rimraf": "2.6.1",
     "sinon": "2.4.1",
     "sinon-chai": "2.12.0"
   },
