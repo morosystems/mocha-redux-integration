@@ -1,5 +1,4 @@
 import invariant from 'invariant';
-import Mocha from 'mocha';
 import Suite from 'mocha/lib/suite';
 import Test from 'mocha/lib/test';
 import createCommonSuite from 'mocha/lib/interfaces/common';
@@ -10,7 +9,7 @@ import {executeCommandWithDependentTests} from './mochaHelpers';
 import when from './when';
 import then from './then';
 
-const mochaUI = (suite) => {
+export default (suite) => {
     const suites = [suite];
     suite.on('pre-require', (context, file, mocha) => {
         const common = createCommonSuite(suite, context);
@@ -110,7 +109,3 @@ const mochaUI = (suite) => {
         };
     });
 };
-
-Mocha.interfaces['redux-integration'] = mochaUI;
-
-export default mochaUI;

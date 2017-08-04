@@ -2,6 +2,7 @@
   "name": "mocha-redux-integration",
   "version": "0.1.0",
   "description": "Integration testing of redux stores with mocha",
+  "main": "./lib/index.js",
   "scripts": {
     "test:base": "mocha --compilers js:babel-register src/test.js src/**/*.spec.js",
     "test": "npm run test:base -- --reporter spec",

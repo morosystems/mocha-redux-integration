@@ -1,2 +1,7 @@
-export {default as MockStore} from './MockStore';
-export {default} from './mochaUI';
+import Mocha from 'mocha';
+import reduxIntegration from './mochaUI';
+import MockStore from './MockStore';
+
+Mocha.interfaces['mocha-redux-integration'] = reduxIntegration;
+module.exports = reduxIntegration;
+module.exports.MockStore = MockStore;
