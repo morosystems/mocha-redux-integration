@@ -8,7 +8,7 @@
     "test": "npm run test:base -- --reporter spec",
     "test:watch": "npm run test:base -- --reporter min --watch",
     "lint": "eslint src test",
-    "example:base": "mocha --compilers js:babel-register --require src --ui redux-integration src/test.js example/redux.spec.js",
+    "example:base": "mocha --compilers js:babel-register --require src --ui mocha-redux-integration src/test.js example/redux.spec.js",
     "example": "npm run example:base -- --reporter spec",
     "example:watch": "npm run example:base -- --reporter min --watch",
     "build": "babel src --out-dir lib --ignore \"**/*.spec.js\",test.js",
