@@ -82,4 +82,12 @@ mocha **/!(redux).spec.js
 API
 ---
 
-> **TBD**
+* [`MockStore(reducer, [path])`](doc/MockStore.md)
+* [Mocha UI](doc/MochaUI.md)
+    * [`feature(title, reducer, path, fn)`](doc/MochaUI.md#feature-title-reducer-path-fn)
+    * scenario(title, fn)
+    * given([title])
+    * when(title, ...actions)
+    * then(title, selector, ...selectorParams, assertion)
+    * thenP
+    * result(title)
