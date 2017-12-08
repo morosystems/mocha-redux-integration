@@ -5,12 +5,14 @@ Mocha UI
 
 ## `scenario(title, fn)`
 
-## `given([title])`
+## `given(title?)`
 
-## `when(title, ...actions)`
+## `when(title, actionCreator, ...params)`
+
+## `when(title, [actionCreator, ...params], [actionCreator, ...params], ...)`
 
 ## `then(title, selector, ...selectorParams, assertion)`
 
-## `thenP`
+## `thenP(title, selector, [...params1], [...params2], ..., assertion)`
 
 ## `result(title)`
