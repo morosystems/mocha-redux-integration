@@ -84,10 +84,10 @@ API
 
 * [`MockStore(reducer, [path])`](doc/MockStore.md)
 * [Mocha UI](doc/MochaUI.md)
-    * [`feature(title, reducer, path, fn)`](doc/MochaUI.md#feature-title-reducer-path-fn)
-    * scenario(title, fn)
-    * given([title])
-    * when(title, ...actions)
-    * then(title, selector, ...selectorParams, assertion)
-    * thenP
-    * result(title)
+    * [`feature(title, reducer, path, fn)`](doc/MochaUI.md#featuretitle-reducer-path-fn)
+    * [`scenario(title, fn)`](doc/MochaUI.md#scenariotitle-fn)
+    * [`given([title])`](doc/MochaUI.md#giventitle)
+    * [`when(title, ...actions)`](doc/MochaUI.md#whentitle-actions)
+    * [`then(title, selector, ...selectorParams, assertion)`](doc/MochaUI.md#thentitle-selector-selectorparams-assertion)
+    * [`thenP`](doc/MochaUI.md#thenp)
+    * [`result(title)`](doc/MochaUI.md#resulttitle)
