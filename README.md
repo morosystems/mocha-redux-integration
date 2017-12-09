@@ -125,9 +125,9 @@ mocha **/!(redux).spec.js
 API
 ---
 
-* [`MockStore(reducer, [path])`](doc/MockStore.md)
+* [`MockStore(reducer, path?)`](doc/MockStore.md)
 * [Mocha UI](doc/MochaUI.md)
-    * [`feature(title, reducer, path, fn)`](doc/MochaUI.md#featuretitle-reducer-path-fn)
+    * [`feature(title, reducer, path?, fn)`](doc/MochaUI.md#featuretitle-reducer-path-fn)
     * [`scenario(title, fn)`](doc/MochaUI.md#scenariotitle-fn)
     * [`given(title?)`](doc/MochaUI.md#giventitle)
     * [`when(title, actionCreator, ...params)`](doc/MochaUI.md#whentitle-actioncreator-params)
