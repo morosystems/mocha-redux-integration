@@ -7,16 +7,6 @@ Integration testing of redux stores with mocha.
 * [Usage](#usage)
 * [API](#api)
 
-Currently, the project is at an experimental stage: there is no npm package. However, you can clone the repo and try it out.
-
-```
-git clone https://github.com/tomvej/mocha-redux-integration.git
-npm install
-```
-
-There is an example of use in the [example folder](https://github.com/tomvej/mocha-redux-integration/blob/master/example/README.md). You can execute it with `npm run example`.
-The test definitions are located in [redux.spec.js](https://github.com/tomvej/mocha-redux-integration/blob/master/example/redux.spec.js).
-
 Motivation
 ----------
 As all components which operate over redux store (action creators, reducers and selectors) are pure functions, we can easily unit test them. However, such tests have two deficiencies:
