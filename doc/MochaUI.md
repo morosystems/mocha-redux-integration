@@ -10,7 +10,7 @@ which is used to test the module. Contains multiple [`scenario`s](#scenariotitle
 * `reducer` (Function): Main reducer of the module.
 * `path` (Array or String, optional): Path in state where the reducer's state is supposed to be (when selectors require it).
     May be either a string or an array of strings. The reducer is wrapped in `combineReducers` from `redux-immutable`,
-    so that the reducer's state can be accessed using `state.getIn(path)` (or `state.get(path)` when it is a string).
+    so that the reducer's state can be accessed using `state.getIn(path)` (or `state.get(path)` when it is simle a string).
 * `fn` (Function): Comprising scenarios.
 
 ### `scenario(title, fn)`
@@ -27,10 +27,12 @@ optionally followed by a [`result`](#resulttitle). Based on Mocha's `context`.
 Specifies initial state of a scenario. May be a resulting state of previous test (see [`result`](#resulttitle)).
 
 #### Arguments
-* `title` (String, optional): References previous `result` call. When empty, uses reducer's initial state.
+* `title` (String, optional): References previous `result` call. When empty, uses initial state of the reducer.
 
 ### `when(title, actionCreator, ...params)`
-Applies single action. Action creator and its arguments are specified separately, so that we can catch errors in action creator, e.g.:
+Applies single action. Action creator and its arguments are specified separately, so that we can catch errors in action creator.
+
+#### Example
 ```javascript
 when('search query is set', setQuery, 'Bonehunters');
 ```
@@ -56,6 +58,7 @@ when('search query is set and changed', [setQuery, 'Bridgeburners'], [setQuery, 
 Specifies assertion on state. A selector is used to retrieve value from state and the assertion is called on it.
 You can use any existing assertion library.
 
+#### Example
 ```javascript
 then('character can be retrieved', getCharacter, 0, (result) => result.should.exist());
 ```
@@ -74,7 +77,8 @@ it('character can be retrieved', () => {
 
 ### `thenP(title, selector, [...params1], [...params2], ..., assertion)`
 Parametric assertion. Uses one selector with several parameter sets and then checks them with parametrized assertion.
-E.g. you can write:
+
+#### Example
 
 ```javascript
 then(

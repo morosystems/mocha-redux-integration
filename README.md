@@ -70,7 +70,7 @@ feature('Character Search Module', characterReducer, ['search', 'characters'], (
 });
 ```
 
-Then you can build scenarios, each consisting of an initial state -- **given** -- a sequence of applied actions -- **when** -- and an assortmen of assertions -- **then**:
+Then you can build scenarios, each consisting of an initial state -- **given** -- a sequence of applied actions -- **when** -- and an assortment of assertions -- **then**:
 ```javascript
 scenario('First query', () => {
     given(); // initial state
@@ -98,10 +98,9 @@ For more information, you can go through the [example module](example) or read t
 
 ### ESLint
 
-As a Mocha UI this library defines several global variables, which have to be specified in order for ESLint to recognise them.
+As a Mocha UI this library defines several global variables, which have to be specified in order for ESLint to recognize them.
 This is done by adding the following section to your `.eslintrc.json` (or adding them to existing globals):
 ```
-{
     "globals": {
         "feature": false,
         "scenario": false,
@@ -111,13 +110,12 @@ This is done by adding the following section to your `.eslintrc.json` (or adding
         "thenP": false,
         "result": false
     }
-}
 ``` 
 
 ### File Names and Other Tests
 
-I generally recommend putting redux integration tests into `redux.spec.js`. This can, however, interfere with other tests,
-which commonly use the `**/*.spec.js` glob to identify other tests. In this case, you can execute them using a negative glob:
+I generally recommend putting redux integration tests into `redux.spec.js` files. This can, however, interfere with other tests,
+which are commonly called using the `**/*.spec.js` glob. In this case, you can execute the other tests with a negative glob:
 ```
 mocha **/!(redux).spec.js
 ```
