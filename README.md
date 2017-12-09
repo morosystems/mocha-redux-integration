@@ -62,7 +62,7 @@ feature('Character Search Module', characterReducer, () => {
 ```
 
 When your selectors expect, that the reducer is placed in a particular place in the reducer tree (using `combineReducers`),
-you can specify the path:
+you can specify the path (note, it assumes you use `redux-immutable`):
 
 ```javascript
 feature('Character Search Module', characterReducer, ['search', 'characters'], () => {
