@@ -52,7 +52,7 @@ when('search query is set and changed', [setQuery, 'Bridgeburners'], [setQuery, 
 * `actionCreator` (Function): Action creator function.
 * `params` (Any, spread): Action creator arguments.
 
-### `then(title, selector, ...selectorParams, assertion)`
+### `then(title, selector, ...params, assertion)`
 Specifies assertion on state. A selector is used to retrieve value from state and the assertion is called on it.
 You can use any existing assertion library.
 
