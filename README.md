@@ -53,13 +53,55 @@ mocha --ui mocha-redux-integration [TEST FILES]
 
 Imagine you want to test a reducer and a set of actions and selectors.
 
-> **TBD**
+First, all your tests are need to be contained inside a `feature`:
+
+```javascript
+feature('Character Search Module', characterReducer, () => {
+    /* TESTS * /
+});
+```
+
+When your selectors expect, that the reducer is placed in a particular place in the reducer tree (using `combineReducers`),
+you can specify the path:
+
+```javascript
+feature('Character Search Module', characterReducer, ['search', 'characters'], () => {
+    /* TESTS */
+});
+```
+
+Then you can build scenarios, each consisting of an initial state -- **given** -- a sequence of applied actions -- **when** -- and an assortmen of assertions -- **then**:
+```javascript
+scenario('First query', () => {
+    given(); // initial state
+    when('search is initialized', setQuery, 'Bonehunters');
+    then('there are no characters', getCharacters, (result) => result.should.be.empty());
+});
+```
+
+Note that actions are specified as the action creator function and its parameters, separately. This is necessary to catch errors in action creators.
+Similarly, selector functions and its parameters are specified separately. The assertion is in the form of a callback.
+
+You can also store a resulting state of a scenario and use it as an inital state of another one:
+```javascript
+scenario('First query', () => {
+    /* ... */
+    result('initialized search'); // you can also use string constant
+});
+scenario('Adding characters', () => {
+    given('initialized search');
+    /* ... */
+});
+```
+
+For more information, you can go through the [example module](example) or read the [API](#api). 
 
 ### ESLint
 
 As a Mocha UI this library defines several global variables, which have to be specified in order for ESLint to recognise them.
 This is done by adding the following section to your `.eslintrc.json` (or adding them to existing globals):
 ```
+{
     "globals": {
         "feature": false,
         "scenario": false,
@@ -69,6 +111,7 @@ This is done by adding the following section to your `.eslintrc.json` (or adding
         "thenP": false,
         "result": false
     }
+}
 ``` 
 
 ### File Names and Other Tests

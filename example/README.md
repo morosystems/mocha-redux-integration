@@ -6,6 +6,7 @@ The aim of this example is to:
 2. Verify suitability of chosen syntax.
 3. Test the library.
 
+You can find the tests in the [redux.spec.js](redux.spec.js) file.
 
 Character Search Module
 -----------------------
