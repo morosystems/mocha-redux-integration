@@ -79,8 +79,8 @@ scenario('First query', () => {
 });
 ```
 
-Note that actions are specified as the action creator function and its parameters, separately. This is necessary to catch errors in action creators.
-Similarly, selector functions and its parameters are specified separately. The assertion is in the form of a callback.
+Note that actions are specified as the action creator function and its arguments, separately. This is necessary to catch errors in action creators.
+Similarly, selector functions and its arguments are specified separately. The assertion is in the form of a callback.
 
 You can also store a resulting state of a scenario and use it as an inital state of another one:
 ```javascript
