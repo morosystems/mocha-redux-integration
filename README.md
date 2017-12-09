@@ -34,7 +34,7 @@ Note: This approach to testing was designed to test redux modules (see [Jack Hsu
 
 Installation
 ------------
-Mocha Redux Integration requires Mocha 4 or later.
+Mocha Redux Integration is built and tested on Mocha 4, however, it should probably run on Mocha 3 too.
 
 ```
 npm install --save-dev mocha-redux-integration
