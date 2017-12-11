@@ -43,7 +43,7 @@ mocha --ui mocha-redux-integration [TEST FILES]
 
 Imagine you want to test a reducer and a set of actions and selectors.
 
-First, all your tests are need to be contained inside a `feature`:
+First, all your tests need to be contained inside a `feature`:
 
 ```javascript
 feature('Character Search Module', characterReducer, () => {
