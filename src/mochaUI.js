@@ -2,6 +2,7 @@ import invariant from 'invariant';
 import Suite from 'mocha/lib/suite';
 import Test from 'mocha/lib/test';
 import createCommonSuite from 'mocha/lib/interfaces/common';
+import createBddInterface from 'mocha/lib/interfaces/bdd';
 
 import MockStore from './MockStore';
 import ResultStore from './ResultStore';
@@ -108,4 +109,6 @@ export default (suite) => {
             });
         };
     });
+
+    createBddInterface(suite);
 };
