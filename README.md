@@ -110,6 +110,9 @@ which are commonly called using the `**/*.spec.js` glob. In this case, you can e
 mocha **/!(redux).spec.js
 ```
 
+Still, mocha redux integration includes mocha's BDD interface, thus making it possible to run integration tests along
+with all the other tests. You might even use BDD features, such using as `describe` to wrap integration tests. 
+
 API
 ---
 
