@@ -2,6 +2,12 @@ Mocha Redux Integration
 =======================
 Integration testing of redux stores with mocha.
 
+-----------------------------
+
+**This project is no longer maintained.** It was originally concieved as a proof of concept of a redux module testing. We use the concept -- redux store testing independent on the state shape -- on several projects, however, maintenance of its Mocha API is too consuming for its benefit, something that can be achieved with the very simple [`MockStore`](src/MockStore.js).
+
+-----------------------------
+
 * [Motivation](#motivation)
 * [Installation](#installation)
 * [Usage](#usage)
