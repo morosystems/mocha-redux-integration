@@ -42,7 +42,7 @@
     "chai": "3.5.0",
     "chai-immutable": "1.6.0",
     "dirty-chai": "2.0.1",
-    "eslint": "4.12.1",
+    "eslint": "4.18.2",
     "eslint-config-airbnb-base": "12.1.0",
     "eslint-plugin-import": "2.8.0",
     "mocha": "3.4.2",
